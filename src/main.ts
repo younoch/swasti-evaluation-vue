@@ -4,6 +4,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import './assets/css/tailwind.css'
+import './assets/scss/main.scss'
 
 const app = createApp(App)
 
