@@ -41,33 +41,19 @@
       </thead>
       <tbody>
         <tr v-for="(row, index) in tableData" :key="index">
-          <td class="text-center">{{ row.sl }}</td>
-          <td>
-            <nuxt-link
-              :to="`/members/${row.memberId}`"
-              class="text-blue-600 hover:underline"
-            >
-              {{ row.memberId }}
-            </nuxt-link>
-          </td>
-          <td>
-            <nuxt-link
-              :to="`/members/${row.memberId}`"
-              class="font-medium text-blue-500 hover:underline"
-            >
-              {{ row.memberName }}
-            </nuxt-link>
-          </td>
+          <td>{{ row.sl }}</td>
+          <td>{{ row.memberId }}</td>
+          <td>{{ row.memberName }}</td>
           <td>{{ row.DWM }}</td>
-          <td class="text-center">
+          <td>
             <input
               type="checkbox"
               v-model="row.confirm"
-              class="h-5 w-5 accent-blue-500"
+              class="h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
             />
           </td>
           <td>{{ row.acNo }}</td>
-          <td><input v-model="row.loanAmount" class="input-box" /></td>
+          <td><input v-model="row.loanAmount" /></td>
           <td>{{ row.gsAmount }}</td>
           <td>{{ row.vsAmount }}</td>
           <td>{{ row.emdsAmount }}</td>
@@ -88,8 +74,8 @@
           <td>{{ row.vsBalance }}</td>
           <td>{{ row.dpsBalance }}</td>
           <td>{{ row.guardianName }}</td>
-          <td class="text-center">
-            <button @click="viewDetails(row)" class="details-btn">🔍</button>
+          <td>
+            <button @click="viewDetails(row)">🔍</button>
           </td>
         </tr>
       </tbody>
@@ -99,9 +85,10 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useCollectionStore } from "@/store/collection";
 
+import { useCollectionStore } from "@/store/collection";
 const collectionStore = useCollectionStore();
+
 const tableData = computed(() => collectionStore.getCollections);
 
 const viewDetails = (row: any) => {
@@ -111,26 +98,24 @@ const viewDetails = (row: any) => {
 
 <style lang="scss" scoped>
 .table-container {
-  @apply max-w-full overflow-x-auto; // Enables scrolling if needed
+  @apply max-w-full overflow-x-auto; // Constrain width and enable scrolling
 
   .custom-table {
     @apply w-full border-collapse table-auto;
 
     th,
     td {
-      @apply border border-stone-400 p-2 min-w-12 whitespace-nowrap;
+      @apply border border-stone-400 p-2 min-w-12 whitespace-nowrap; // Prevent text wrapping
     }
 
     th {
       @apply bg-blue-500 bg-opacity-50 border-gray-100;
     }
 
-    .input-box {
-      @apply max-w-24 border rounded px-1;
-    }
-
-    .details-btn {
-      @apply bg-blue-500 text-white px-2 py-1 rounded-md transition hover:bg-blue-700;
+    td {
+      input {
+        @apply max-w-20;
+      }
     }
   }
 }
