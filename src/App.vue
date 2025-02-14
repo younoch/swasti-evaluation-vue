@@ -1,7 +1,7 @@
 <!-- src/App.vue -->
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div id="app" class="p-4 w-max-screen">
+    <router-view class="w-full"></router-view>
     <div class="bg-blue-500 text-white p-4">
       <h1 class="text-2xl font-bold text-red">Hello, Tailwind CSS with Vue 3!</h1>
       <p class="mt-2">This is a Vue 3 component styled with Tailwind CSS v3.</p>
@@ -9,15 +9,11 @@
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
-import { mapGetters, mapActions } from "vuex";
+<script setup lang="ts">
+import { ref } from 'vue';
 
-const message = ref("This is a reactive message!");
+const message = ref('This is a reactive message!');
 
-export default {
-  name: "App",
-};
 </script>
 
 <style>

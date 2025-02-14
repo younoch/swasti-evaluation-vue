@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid grid-cols-12 border border-gray-300 rounded p-4 gap-2 text-gray-600"
+    class="grid grid-cols-12 gap-2"
   >
     <form class="col-span-9 flex gap-2" @submit.prevent="showData">
       <ReusableSelect
@@ -76,7 +76,7 @@ const defaultTotalValues : ITotaling = {
   dps: 0
 }
 
-const filterOptionValues = inject<IFilterOptions>("fiter-option-values") ?? defaultFilterOptions;
+const filterOptionValues = inject<IFilterOptions>("filter-option-values") ?? defaultFilterOptions;
 const totalValues = inject<ITotaling>("total-values") ?? defaultTotalValues;
 const searchBy = inject<string>("search-by") ?? "";
 

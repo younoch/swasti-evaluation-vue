@@ -1,11 +1,14 @@
-// src/store/index.ts
-import { createStore } from 'vuex'
-import collection from './collection'
+// src/stores/index.ts
+import { createPinia } from 'pinia';
+import { useCollectionStore } from './collection';
 
-const store = createStore({
-  modules: {
-    collection,
+const pinia = createPinia();
+
+// Register the store
+pinia.use(({ store }) => {
+  if (store.$id === 'collection') {
+    useCollectionStore();
   }
-})
+});
 
-export default store
+export default pinia;

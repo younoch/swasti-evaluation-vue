@@ -1,33 +1,19 @@
-// src/store/collection/index.ts
-import { Module } from 'vuex'
-
-interface User {
-  name: string
-}
-
+// src/stores/collection.ts
+import { defineStore } from 'pinia';
+import collectionData from '../../../data/collection.json';
+import { ICollection } from './type';
 interface CollectState {
-  collection: User | null
+  collection: ICollection[];
 }
 
-const state: CollectState = {
-  collection: null,
-}
-
-const getters = {
-}
-
-const actions = {
-}
-
-const mutations = {
-}
-
-const collectionModule: Module<CollectState, any> = {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations
-}
-
-export default collectionModule
+export const useCollectionStore = defineStore('collection', {
+  state: (): CollectState => ({
+    collection: collectionData, 
+  }),
+  getters: {
+    getCollections: (state) => state.collection,
+  },
+  actions: {
+    // Add your actions here if needed
+  },
+});

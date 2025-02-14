@@ -1,14 +1,27 @@
 <!-- src/components/HomePage.vue -->
 <template>
-  <div class="m-4 bg-slate-100 rounded">
-    <FilterOptions />
+  <div class="bg-gray-100 w-full">
+    <div class="border w-full border-gray-300 rounded-lg p-4 gap-4 text-gray-700 bg-opacity-5 flex flex-col bg-blue-900">
+      <FilterOptions />
+      <CollectionTable />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { provide, ref, reactive } from "vue";
-import FilterOptions from "./FilterOptions.vue";
 import { IFilterOptions, ITotaling } from "./type";
+
+import FilterOptions from "./FilterOptions.vue";
+import CollectionTable from "./CollectionTable.vue";
+
+import { useCollectionStore } from '@/store/collection';
+const collectionStore = useCollectionStore();
+setTimeout(() => {
+  console.log(collectionStore);
+}, 100);
+console.log(collectionStore);
+
 
 const filterOptionValues = reactive<IFilterOptions>({
   branch: '',
@@ -27,9 +40,10 @@ const totalValues = reactive<ITotaling>({
   vs: 0,
   dps: 0
 })
-const searchBy = ref<string>('')
+
+const searchBy = ref<string>("");
 
 provide('search-by', searchBy);
-provide('fiter-option-values', filterOptionValues);
+provide('filter-option-values', filterOptionValues);
 provide('total-values', totalValues);
 </script>
