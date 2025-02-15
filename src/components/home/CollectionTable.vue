@@ -8,7 +8,6 @@
     }"
     :key="DWMColWidth"
   >
-    <pre>{{ slColWidth }}</pre>
     <table class="custom-table">
       <thead>
         <tr>
@@ -127,13 +126,12 @@ watchEffect(async () => {
 
 <style lang="scss" scoped>
 .table-container {
-  @apply max-w-full overflow-x-auto;
 
   .custom-table {
     @apply w-full border-collapse table-auto;
 
     th, td {
-      @apply border border-stone-400 p-2 min-w-12 whitespace-nowrap;
+      @apply border border-stone-400 p-1 min-w-12 whitespace-nowrap;
     }
 
     th {

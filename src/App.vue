@@ -1,11 +1,7 @@
 <!-- src/App.vue -->
 <template>
-  <div id="app" class="p-4 w-max-screen">
+  <div id="app" class="p-2 w-max-screen h-screen ">
     <router-view class="w-full"></router-view>
-    <div class="bg-blue-500 text-white p-4">
-      <h1 class="text-2xl font-bold text-red">Hello, Tailwind CSS with Vue 3!</h1>
-      <p class="mt-2">This is a Vue 3 component styled with Tailwind CSS v3.</p>
-    </div>
   </div>
 </template>
 

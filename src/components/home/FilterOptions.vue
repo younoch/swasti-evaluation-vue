@@ -34,6 +34,7 @@
         v-model="filterOptionValues.block"
       />
       <div class="flex flex-col justify-between">
+        <div></div>
         <button
           class="px-2 py-1 rounded-md bg-blue-500 text-white"
           type="submit"
@@ -42,7 +43,7 @@
         </button>
       </div>
     </form>
-    <form class="col-span-3">
+    <form class="col-span-2 col-start-11">
       <input
         type="text"
         v-model="searchBy"
@@ -50,6 +51,15 @@
         placeholder="Search by software ID, Member ID"
       />
     </form>
+    <div class="col-span-12 text-left flex justify-between">
+      <div class=" min-w-32"> <span>Total Member: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>Loan Revocable: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>Total Collection: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>Loan: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>GS: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>VS: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>DPS: </span> <span class="text-lg min-w-5">0</span> </div>
+    </div>
   </div>
 </template>
 

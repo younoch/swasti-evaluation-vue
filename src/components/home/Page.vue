@@ -1,9 +1,12 @@
 <!-- src/components/HomePage.vue -->
 <template>
-  <div class="bg-gray-100 w-full">
-    <div class="border w-full border-gray-300 rounded-lg p-4 gap-4 text-gray-700  flex flex-col bg-blue-50">
+  <div class=" w-full flex flex-col h-full">
+    <div class="border w-full border-gray-300 rounded-lg p-2 gap-2 text-gray-700 flex flex-col bg-gray-200 flex-grow overflow-hidden"> <!-- Add overflow-hidden -->
       <FilterOptions />
-      <CollectionTable />
+      <CollectionTable class="max-w-full flex-grow overflow-auto" />
+    </div>
+    <div class="border w-full border-gray-300 rounded-lg p-2 gap-2 text-gray-700 mt-4 flex flex-col bg-gray-200">
+      <ProductSummery />
     </div>
   </div>
 </template>
@@ -14,6 +17,7 @@ import { IFilterOptions, ITotaling } from "./type";
 
 import FilterOptions from "./FilterOptions.vue";
 import CollectionTable from "./CollectionTable.vue";
+import ProductSummery from "./ProductSummery.vue";
 
 import { useCollectionStore } from '@/store/collection';
 const collectionStore = useCollectionStore();
