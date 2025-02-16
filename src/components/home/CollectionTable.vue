@@ -284,13 +284,13 @@ watchEffect(async () => {
     }
 
     th {
-      @apply bg-blue-400 border-gray-100;
+      @apply bg-blue-300 border-gray-100;
     }
 
     td {
       @apply bg-blue-50;
       input {
-        @apply max-w-20 bg-blue-50;
+        @apply max-w-16 bg-blue-50;
       }
     }
 

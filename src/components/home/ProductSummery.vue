@@ -64,15 +64,15 @@ watchEffect(() => {
   @apply grid grid-cols-3 border;
 }
 .summary-header {
-  @apply col-span-2 bg-blue-500 p-2 text-start;
+  @apply col-span-2 bg-blue-300 p-2 text-start border-gray-100;
 }
 .summary-amount-header {
-  @apply bg-blue-500 p-2 w-full;
+  @apply bg-blue-300 p-2 w-full border-gray-100;
 }
 .summary-total-label {
-  @apply col-span-2 p-2 text-start bg-white;
+  @apply col-span-2 p-2 text-start bg-white border-gray-100;
 }
 .summary-total-value {
-  @apply text-right bg-white py-1 px-2 text-lg font-semibold;
+  @apply text-right bg-white py-1 px-2 text-lg font-semibold border-gray-100;
 }
 </style>
