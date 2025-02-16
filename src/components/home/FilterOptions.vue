@@ -52,21 +52,22 @@
       />
     </form>
     <div class="col-span-12 text-left flex justify-between">
-      <div class=" min-w-32"> <span>Total Member: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>Total Member: </span> <span class="text-lg min-w-5"> {{ tableData.length }}</span> </div>
       <div class=" min-w-32"> <span>Loan Revocable: </span> <span class="text-lg min-w-5">0</span> </div>
       <div class=" min-w-32"> <span>Total Collection: </span> <span class="text-lg min-w-5">0</span> </div>
-      <div class=" min-w-32"> <span>Loan: </span> <span class="text-lg min-w-5">0</span> </div>
-      <div class=" min-w-32"> <span>GS: </span> <span class="text-lg min-w-5">0</span> </div>
-      <div class=" min-w-32"> <span>VS: </span> <span class="text-lg min-w-5">0</span> </div>
+      <div class=" min-w-32"> <span>Loan: </span> <span class="text-lg min-w-5">{{ totalLoanAmount }}</span> </div>
+      <div class=" min-w-32"> <span>GS: </span> <span class="text-lg min-w-5"> {{ totalGS }}</span> </div>
+      <div class=" min-w-32"> <span>VS: </span> <span class="text-lg min-w-5"> {{ totalVS }}</span> </div>
       <div class=" min-w-32"> <span>DPS: </span> <span class="text-lg min-w-5">0</span> </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { computed, inject } from "vue";
 import { IFilterOptions, ITotaling } from "./type";
 import ReusableSelect from "@/components/reusable/Select.vue";
+import { useCollectionStore } from "@/store/collection";
 
 const defaultFilterOptions: IFilterOptions = {
   branch: "",
@@ -75,6 +76,7 @@ const defaultFilterOptions: IFilterOptions = {
   samityDay: "",
   block: "",
 };
+const collectionStore = useCollectionStore();
 
 const defaultTotalValues : ITotaling = {
   members: 0,
@@ -89,6 +91,19 @@ const defaultTotalValues : ITotaling = {
 const filterOptionValues = inject<IFilterOptions>("filter-option-values") ?? defaultFilterOptions;
 const totalValues = inject<ITotaling>("total-values") ?? defaultTotalValues;
 const searchBy = inject<string>("search-by") ?? "";
+
+const tableData = computed(() => collectionStore.getCollections);
+
+const totalLoanAmount = computed(() => {
+  return collectionStore.getCollections.reduce((total, item) => total + item.loanAmount, 0);
+});
+
+const totalGS = computed(() => {
+  return collectionStore.getCollections.reduce((total, item) => total + item.gsAmount, 0);
+});
+const totalVS = computed(() => {
+  return collectionStore.getCollections.reduce((total, item) => total + item.vsAmount, 0);
+});
 
 const showData = () => {};
 </script>

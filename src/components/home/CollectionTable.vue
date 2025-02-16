@@ -14,7 +14,6 @@
       '--emds-position': `${columns[9].position}px`,
     }"
   >
-    <pre>{{ columns[8].position }}</pre>
     <table class="custom-table">
       <thead>
         <tr>
@@ -100,11 +99,11 @@
           <th rowspan="2" class="sticky-column">View Details</th>
         </tr>
         <tr>
-          <th>
+          <th class="sticky-column" style="left: var(--dwm-confirm, 0)">
             <input
               type="checkbox"
               v-model="confirmAll"
-              class="h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
+              class="h-5 w-5 text-blue-600 transition duration-150 ease-in-out sticky-column"
             />
           </th>
           <th>PA</th>
@@ -125,7 +124,7 @@
           <td class="sticky-column">{{ row.sl }}</td>
           <td class="sticky-column">{{ row.memberId }}</td>
           <td class="sticky-column">{{ row.memberName }}</td>
-          <td class="sticky-column">{{ row.DWM }}</td>
+          <td class="sticky-column">{{ row.DWM === 0 ? "" : row.DWM }}</td>
           <td class="sticky-column">
             <input
               type="checkbox"
@@ -135,26 +134,58 @@
           </td>
           <td class="sticky-column">{{ row.acNo }}</td>
           <td class="sticky-column"><input v-model="row.loanAmount" /></td>
-          <td class="sticky-column">{{ row.gsAmount }}</td>
-          <td class="sticky-column">{{ row.vsAmount }}</td>
-          <td class="sticky-column">{{ row.emdsAmount }}</td>
-          <td>{{ row.loanCollectionSplit.pa }}</td>
-          <td>{{ row.loanCollectionSplit.sc }}</td>
-          <td>{{ row.loanCollectionSplit.total }}</td>
-          <td>{{ row.loanRecoverable.pa }}</td>
-          <td>{{ row.loanRecoverable.sc }}</td>
-          <td>{{ row.loanRecoverable.total }}</td>
-          <td>{{ row.loanDueAdvPASc.new }}</td>
-          <td>{{ row.loanDueAdvPASc.closeing }}</td>
-          <td>{{ row.loanBalance.pa }}</td>
-          <td>{{ row.loanBalance.sc }}</td>
-          <td>{{ row.loanBalance.total }}</td>
-          <td>{{ row.disburseDate }}</td>
-          <td>{{ row.disbursedAmount }}</td>
-          <td>{{ row.gsBalance }}</td>
-          <td>{{ row.vsBalance }}</td>
-          <td>{{ row.dpsBalance }}</td>
-          <td>{{ row.guardianName }}</td>
+          <td class="sticky-column"><input v-model="row.gsAmount" /></td>
+          <td class="sticky-column"><input v-model="row.vsAmount" /></td>
+          <td class="sticky-column"><input v-model="row.emdsAmount" /></td>
+          <td>
+            {{
+              row.loanCollectionSplit.pa === 0 ? "" : row.loanCollectionSplit.pa
+            }}
+          </td>
+          <td>
+            {{
+              row.loanCollectionSplit.sc === 0 ? "" : row.loanCollectionSplit.sc
+            }}
+          </td>
+          <td>
+            {{
+              row.loanCollectionSplit.total === 0
+                ? ""
+                : row.loanCollectionSplit.total
+            }}
+          </td>
+          <td>
+            {{ row.loanRecoverable.pa === 0 ? "" : row.loanRecoverable.pa }}
+          </td>
+          <td>
+            {{ row.loanRecoverable.sc === 0 ? "" : row.loanRecoverable.sc }}
+          </td>
+          <td>
+            {{
+              row.loanRecoverable.total === 0 ? "" : row.loanRecoverable.total
+            }}
+          </td>
+          <td>
+            {{ row.loanDueAdvPASc.new === 0 ? "" : row.loanDueAdvPASc.new }}
+          </td>
+          <td>
+            {{
+              row.loanDueAdvPASc.closeing === 0
+                ? ""
+                : row.loanDueAdvPASc.closeing
+            }}
+          </td>
+          <td>{{ row.loanBalance.pa === 0 ? "" : row.loanBalance.pa }}</td>
+          <td>{{ row.loanBalance.sc === 0 ? "" : row.loanBalance.sc }}</td>
+          <td>
+            {{ row.loanBalance.total === 0 ? "" : row.loanBalance.total }}
+          </td>
+          <td>{{ row.disburseDate === "0" ? "" : row.disburseDate }}</td>
+          <td>{{ row.disbursedAmount === 0 ? "" : row.disbursedAmount }}</td>
+          <td>{{ row.gsBalance === 0 ? "" : row.gsBalance }}</td>
+          <td>{{ row.vsBalance === 0 ? "" : row.vsBalance }}</td>
+          <td>{{ row.dpsBalance === 0 ? "" : row.dpsBalance }}</td>
+          <td>{{  row.guardianName }}</td>
           <td class="sticky-column">
             <button @click="viewDetails(row)">🔍</button>
           </td>
@@ -165,7 +196,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, reactive, ref, watchEffect } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  reactive,
+  ref,
+  watch,
+  watchEffect,
+} from "vue";
 
 import { useCollectionStore } from "@/store/collection";
 
@@ -178,9 +217,14 @@ interface IColumn {
 
 const collectionStore = useCollectionStore();
 
-const confirmAll = ref<boolean>(false)
+const confirmAll = ref<boolean>(false);
 
-const tableData = computed(() => collectionStore.getCollections);
+const tableData = computed({
+  get: () => collectionStore.collection,
+  set: (value) => {
+    collectionStore.collection = value;
+  },
+});
 
 const columns = reactive<IColumn[]>([
   { name: "sl", element: null, width: 0, position: 0 },
@@ -202,11 +246,22 @@ const viewDetails = (test: any) => {
   const dsf = test ? test.offsetWidth : 0;
 };
 
+watch(confirmAll, (newValue) => {
+  collectionStore.toggleConfirmAll(newValue);
+});
+
+watch(
+  tableData,
+  (newValue) => {
+    collectionStore.collection = newValue;
+  },
+  { deep: true }
+);
+
 watchEffect(async () => {
   await nextTick();
 
   columns.forEach((column) => {
-    console.log(getElementWidth(column.element));
     column.width = getElementWidth(column.element);
   });
 

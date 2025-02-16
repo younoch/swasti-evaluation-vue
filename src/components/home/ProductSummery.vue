@@ -18,7 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref, watchEffect } from "vue";
+import { useCollectionStore } from "@/store/collection";
 
 interface SummaryItem {
   header: string;
@@ -27,7 +28,7 @@ interface SummaryItem {
   totalValue: string | number;
 }
 
-const summaryData = ref<SummaryItem[]>([
+const summaryData = reactive<SummaryItem[]>([
   {
     header: "Loan Collections",
     amountHeader: "Amount",
@@ -48,9 +49,14 @@ const summaryData = ref<SummaryItem[]>([
   },
 ]);
 
-onMounted(() => {
-  console.log("Component mounted");
+const collectionStore = useCollectionStore();
+
+const totalConfirmedCollection = computed(() => collectionStore.getTotalConfirmedCollection);
+
+watchEffect(() => {
+  summaryData[0].totalValue = totalConfirmedCollection.value;
 });
+
 </script>
 
 <style scoped lang="scss">

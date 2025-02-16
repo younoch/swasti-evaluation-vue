@@ -12,8 +12,17 @@ export const useCollectionStore = defineStore('collection', {
   }),
   getters: {
     getCollections: (state) => state.collection,
+    getTotalConfirmedCollection: (state) => {
+      return state.collection
+        .filter(item => item.confirm)
+        .reduce((total, item) => total + item.loanAmount, 0);
+    },
   },
   actions: {
-    // Add your actions here if needed
+    toggleConfirmAll(confirmAll: boolean) {
+      this.collection.forEach((item) => {
+        item.confirm = confirmAll;
+      });
+    },
   },
 });
