@@ -15,7 +15,7 @@ export const useCollectionStore = defineStore('collection', {
     getTotalConfirmedCollection: (state) => {
       return state.collection
         .filter(item => item.confirm)
-        .reduce((total, item) => total + item.loanAmount, 0);
+        .reduce((total, item) => total + Number(item.loanAmount), 0);
     },
   },
   actions: {
