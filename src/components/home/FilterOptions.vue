@@ -78,31 +78,20 @@ const defaultFilterOptions: IFilterOptions = {
 };
 const collectionStore = useCollectionStore();
 
-const defaultTotalValues : ITotaling = {
-  members: 0,
-  loanReceible: 0,
-  collections: 0,
-  loan: 0,
-  gs: 0,
-  vs: 0,
-  dps: 0
-}
-
 const filterOptionValues = inject<IFilterOptions>("filter-option-values") ?? defaultFilterOptions;
-const totalValues = inject<ITotaling>("total-values") ?? defaultTotalValues;
 const searchBy = inject<string>("search-by") ?? "";
 
 const tableData = computed(() => collectionStore.getCollections);
 
 const totalLoanAmount = computed(() => {
-  return collectionStore.getCollections.reduce((total, item) => total + item.loanAmount, 0);
+  return collectionStore.getCollections.reduce((total, item) => total + Number(item.loanAmount), 0);
 });
 
 const totalGS = computed(() => {
-  return collectionStore.getCollections.reduce((total, item) => total + item.gsAmount, 0);
+  return collectionStore.getCollections.reduce((total, item) => total + Number(item.gsAmount), 0);
 });
 const totalVS = computed(() => {
-  return collectionStore.getCollections.reduce((total, item) => total + item.vsAmount, 0);
+  return collectionStore.getCollections.reduce((total, item) => total + Number(item.vsAmount), 0);
 });
 
 const showData = () => {};
